@@ -47,10 +47,10 @@
       <div class="mb-3">
         <label for="type" class="form-label">Tecnologia:</label>
           @foreach($technologies as $technology)
-            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
-              <input type="checkbox" class=" btn-check @error('technologies') is-invalid @enderror" id="btncheck1" autocomplete="off" name="technologies[]" value="{{ $technology->id }}" {{ $project?->technologies->contains($technology) ? 'checked' : '' }}>
-              <label class="btn btn-outline-secondary" for="btncheck1"><i class="fa-brands {{ $technology->name }}"></i></label>
-            </div>
+            {{-- <input type="checkbox" class="btn-check @error('technologies') is-invalid @enderror" name="technologies[]" value="{{ $technology->id }}" {{ $project?->technologies->contains($technology) ? 'checked' : '' }}>
+            <label class="btn btn-outline-secondary" for="btncheck1"><i class="fa-brands {{ $technology->name }}"></i></label> --}}
+            <input type="checkbox" class="@error('technologies') is-invalid @enderror" name="technologies[]" value="{{ $technology->id }}" {{ $project?->technologies->contains($technology) ? 'checked' : '' }}>
+            <label for=""><i class="fa-brands {{ $technology->name }}"></i></label>
           @endforeach
           @error('technologies')
             <div class="invalid_feedback">{{ $message }}</div>
