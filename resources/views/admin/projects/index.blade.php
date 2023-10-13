@@ -11,6 +11,11 @@
             <div class="card-body">
               <h5 class="card-title">{{ $project->title }}</h5>
               <span class="badge bg-secondary">{{ $project->type->type }}</span>
+              @foreach ($project->technologies as $technology)
+                <p class="badge" style="background-color: rgb({{ $technology->color }})">
+                  <i class="fa-brands {{ $technology->name }}"></i>
+                </p>
+              @endforeach
             </div>
           </div>
         </a>

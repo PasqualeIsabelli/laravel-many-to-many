@@ -27,7 +27,7 @@ class UpdateProjectRequest extends FormRequest
             'thumb' => 'nullable|image|max:5120',
             'creation_date' => 'required|date',
             'link' => 'required|string',
-            'language' => 'required|string',
+            'technologies' => 'required',
         ];
     }
 
@@ -44,7 +44,7 @@ class UpdateProjectRequest extends FormRequest
             'thumb.max' => 'La dimensione massima dell\'immagine è di 5MB.',
             'creation_date.required' => 'La data è obbligatoria.',
             'link.required' => 'Il link è obbligatorio.',
-            'language.required' => 'La lingua è obbligatoria.',
+            'technologies.required' => 'E\' obbligatorio inserire almeno una tecnologia.',
         ];
     }
 }

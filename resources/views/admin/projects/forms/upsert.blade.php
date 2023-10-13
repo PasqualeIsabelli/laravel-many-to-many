@@ -45,6 +45,19 @@
       </div>
 
       <div class="mb-3">
+        <label for="type" class="form-label">Tecnologia:</label>
+          @foreach($technologies as $technology)
+            <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+              <input type="checkbox" class=" btn-check @error('technologies') is-invalid @enderror" id="btncheck1" autocomplete="off" name="technologies[]" value="{{ $technology->id }}" {{ $project?->technologies->contains($technology) ? 'checked' : '' }}>
+              <label class="btn btn-outline-secondary" for="btncheck1"><i class="fa-brands {{ $technology->name }}"></i></label>
+            </div>
+          @endforeach
+          @error('technologies')
+            <div class="invalid_feedback">{{ $message }}</div>
+          @enderror
+      </div>
+
+      <div class="mb-3">
         <label for="creation_date" class="form-label">Data:</label>
         <input type="date" name="creation_date" class="form-control @error('creation_date') is-invalid @enderror" value="{{ old('creation_date', $project?->creation_date) }}">
         @error('creation_date')
@@ -56,14 +69,6 @@
         <label for="link" class="form-label">Link:</label>
         <input type="text" name="link" class="form-control @error('link') is-invalid @enderror" value="{{ old('link', $project?->link) }}">
         @error('link')
-          <div class="invalid-feedback">{{ $message }}</div>
-        @enderror
-      </div>
-
-      <div class="mb-3">
-        <label for="language" class="form-label">Lingua:</label>
-        <input type="text" name="language" class="form-control @error('language') is-invalid @enderror" value="{{ old('language', implode(",", $project?->language ?? [])) }}">
-        @error('language')
           <div class="invalid-feedback">{{ $message }}</div>
         @enderror
       </div>

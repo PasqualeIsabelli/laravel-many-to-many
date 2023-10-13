@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Type;
+use App\Models\Technology;
 //use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Http\Requests\StoreProjectRequest;
@@ -28,7 +29,8 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
-        return view('admin.projects.create', compact('types'));
+        $technologies = Technology::all();
+        return view('admin.projects.create', compact('types', 'technologies'));
     }
 
     /**
@@ -38,14 +40,16 @@ class ProjectController extends Controller
     {
         $data = $request->validated();
 
-        $data["language"] = explode(', ', $data["language"]);
-
         $data['slug'] = $this->generateSlug($data['title']);
 
         $data['thumb'] = Storage::put('projects', $data['thumb']);
 
         // abbreviazione dei metodi: new, fill e save
         $project = Project::create($data);
+
+        if (key_exists("technologies", $data)) {
+            $project->technologies()->attach($data["technologies"]);
+        }
 
         return redirect()->route('admin.projects.index', $project->slug);
     }
@@ -69,7 +73,8 @@ class ProjectController extends Controller
         $project = Project::where("slug", $slug)->firstOrFail();
         //$project = Project::findOrFail($id);
         $types = Type::all();
-        return view('admin.projects.edit', compact('project', 'types'));
+        $technologies = Technology::all();
+        return view('admin.projects.edit', compact('project', 'types', 'technologies'));
     }
 
     /**
@@ -85,8 +90,6 @@ class ProjectController extends Controller
         if ($data["title"] !== $project->title) {
             $data["slug"] = $this->generateSlug($data["title"]);
         }
-
-        $data["language"] = explode(', ', $data["language"]);
 
         //$data['thumb'] = Storage::put('projects', $data['thumb']);
 
@@ -110,6 +113,8 @@ class ProjectController extends Controller
         if($project->thumb) {
             Storage::delete($project->thumb);
         }
+
+        $project->technologies()->detach();
 
         $project->delete();
 

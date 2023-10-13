@@ -11,7 +11,11 @@
       <h5>{{ $project->title }}</h5>
       <p>{{ $project->description }}</p>
       <span class="badge bg-secondary">{{ $project->type->type }}</span>
-      <p class="card-text">{{ 'language', implode(',', $project->language) }}</p>
+      @foreach ($project->technologies as $technology)
+        <p class="badge" style="background-color: rgb({{ $technology->color }})">
+          <i class="fa-brands {{ $technology->name }}"></i>
+        </p>
+      @endforeach
       <div class="d-flex justify-content-between">
         <a href="{{ $project->link }}" class="text-decoration-none">Link</a>
         <small class="text-center">{{ $project->creation_date->format('d/m/Y') }}</small>
